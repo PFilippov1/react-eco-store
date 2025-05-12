@@ -1,11 +1,8 @@
-/* @use './scss/styles/_variables' as *;
-@use './scss/styles/_normalize' as *; */
-@import './scss/styles/_variables';
-@import './scss/styles/_normalize';
+@import './css/styles/_variables.css';
+@import './css/styles/_normalize.css';
 @import 'tailwindcss';
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -24,27 +21,42 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.wrapper {
+  width: calc(100vw - 100px);
+  height: 100%;
+  background-color: #fff;
+  margin: 50px auto;
+  border-radius: 10px;
+  max-width: 1400px;
+
+  @media (max-width: 720px) {
+    width: calc(100vw - 30px);
+    margin-top: 30px;
+  }
+}
+
+.container {
+  max-width: 1280px;
+  width: var(--container-width);
+  margin: 0 auto;
 }
 
 button {
-  border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  transform: ease-in-out var(--duration);
 }
+
 button:hover {
-  border-color: #646cff;
+  border-color: #c7c7d9;
+  background-color: var(--dark-green);
 }
+
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  border-color: #c7c7d9;
+  border-width: 1px;
+  outline: none;
 }

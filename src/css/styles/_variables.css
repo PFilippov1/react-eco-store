@@ -1,0 +1,9 @@
+:root {
+  --black: #232323;
+  --background: #edf2ee;
+  --gray-line: #e5e5e5;
+  --green: #00b207;
+  --dark-green: #2c742f;
+  --container-width: 100%;
+  --duration: 0.15s;
+}
