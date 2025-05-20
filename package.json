@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "preview": "vite preview",
     "precommit": "lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
+    "start:server": "ts-node server/server.js"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
@@ -23,11 +24,17 @@
     }
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.5",
     "clsx": "^2.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
     "lucide-react": "^0.507.0",
+    "pg": "^8.16.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.0",
     "tailwind-merge": "^3.2.0"
   },
@@ -36,7 +43,10 @@
     "@tailwindcss/cli": "^4.1.5",
     "@tsconfig/node18": "^18.2.4",
     "@tsconfig/vite-react": "^3.4.0",
-    "@types/node": "^22.15.3",
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.18",
+    "@types/pg": "^8.15.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
@@ -56,6 +66,7 @@
     "prettier": "3.5.3",
     "sass": "^1.87.0",
     "tailwindcss": "^4.1.5",
+    "ts-node": "^10.9.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5",
