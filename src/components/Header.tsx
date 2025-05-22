@@ -1,11 +1,10 @@
-import React from 'react';
 import { cn } from '../lib';
 import { ChevronDown, MapPin } from 'lucide-react';
 import Group from '../assets/img/Group.svg';
 import PhoneCall from '../assets/img/PhoneCall.svg';
 import { HeaderTopActions, Navbar, SearchBar } from './shared';
 
-const Header: React.FC = () => {
+const Header = () => {
   return (
     <div className={cn('container p-2', 'flex flex-col justify-between gap-3')}>
       {/* first section */}
@@ -30,7 +29,7 @@ const Header: React.FC = () => {
       </div>
 
       {/* second section */}
-      <div className="flex flex-row justify-between ">
+      <div className="flex flex-row justify-between flex-wrap ">
         <div className="flex flex-row gap-1 content-center items-center cursor-pointer">
           <Group />
           <span className="text-3xl font-bold"> Ecobazar</span>

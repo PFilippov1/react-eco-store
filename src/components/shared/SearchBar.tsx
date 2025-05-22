@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '../../lib';
 import { Search as SearchIcon } from 'lucide-react';
 
-export const SearchBar: React.FC = () => {
+export const SearchBar = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   return (
     <div className="flex flex-row bg-gray-50 items-center rounded-md overflow-hidden group">

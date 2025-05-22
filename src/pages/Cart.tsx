@@ -1,5 +1,5 @@
 import React from 'react';
-import { CartItems } from '../shared/CartItems';
+import { CartItems } from '../components/shared/CartItems';
 
 export const Cart = () => {
   return (
