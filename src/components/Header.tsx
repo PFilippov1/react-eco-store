@@ -14,11 +14,11 @@ const Header = () => {
           <span>Store Location: Lincoln- 344, Illinois, Chicago, USA</span>
         </div>
         <div className="flex flex-row justify-start items-center align-center text-sm ">
-          <span className="flex flex-row !text-gray-500">
+          <span className="flex flex-row text-gray-500">
             Eng
             <ChevronDown className="w-4 h-4" />
           </span>
-          <span className="flex flex-row !text-gray-500">
+          <span className="flex flex-row text-gray-500">
             USD
             <ChevronDown className="w-4 h-4" />
           </span>
@@ -29,9 +29,12 @@ const Header = () => {
       </div>
 
       {/* second section */}
-      <div className="flex flex-row justify-between flex-wrap ">
+      <div className="flex flex-row justify-between flex-wrap">
         <div className="flex flex-row gap-1 content-center items-center cursor-pointer">
-          <Group />
+          {/* <Group width={10} height={10} /> */}
+          <div className="w-6 h-6">
+            <Group />
+          </div>
           <span className="text-3xl font-bold"> Ecobazar</span>
         </div>
 
@@ -48,7 +51,7 @@ const Header = () => {
             <PhoneCall />
           </div>{' '}
           <div className="flex flex-col">
-            <span className="text-sm !text-gray-500 !text-opacity-50">Customer Service</span>
+            <span className="text-sm text-gray-500 text-opacity-50">Customer Service</span>
             <span className="text-xl font-bold">(123)123-4567</span>
           </div>
         </div>

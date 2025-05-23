@@ -1,4 +1,4 @@
-import { Products } from '../components/shared/Products';
+import { Products } from '../components/Products';
 
 export const Home = () => {
   return (

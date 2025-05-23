@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { RootState, AppDispatch } from '../../store/store';
-import { setProducts, type Product } from '../../store/slices/productsSlice';
-import { fetchProducts } from '../../lib/api';
-import { addToCart } from '../../store/slices/cartSlice';
+import type { AppDispatch, RootState } from '../store/store';
+import { setProducts, type Product } from '../store/slices/productsSlice';
+import { fetchProducts } from '../lib/api';
+import { addToCart } from '../store/slices/cartSlice';
 
 export const Products = () => {
   const dispatch = useDispatch<AppDispatch>();

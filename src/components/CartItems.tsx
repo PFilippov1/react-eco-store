@@ -1,12 +1,15 @@
-import { useEffect } from 'react';
-import { fetchProducts } from '../../lib/api';
-import { setProducts } from '../../store/slices/productsSlice';
+import { useEffect, useState } from 'react';
+import { fetchProducts } from '../lib/api';
+import { setProducts } from '../store/slices/productsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../../store/store';
-import { selectTotalPrice } from '../../store/selectors/selectTotalPrice';
-import { QuantityCounter } from '.';
-import { removeFromCart } from '../../store/slices/cartSlice';
+import type { AppDispatch, RootState } from '../store/store';
+import { selectTotalPrice } from '../store/selectors/selectTotalPrice';
+import { ConfirmModal, QuantityCounter } from './shared';
+import { clearCart, removeFromCart } from '../store/slices/cartSlice';
 import { Trash2 } from 'lucide-react';
+import { toastCartClearTopRightSuccess } from '../lib';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CartItems = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,6 +18,7 @@ export const CartItems = () => {
   // get all products for addition information (for future)
   // const products = useSelector((state: RootState) => state.products.products);
   const totalPrice = useSelector(selectTotalPrice);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetchProducts().then((data) => dispatch(setProducts(data)));
@@ -22,6 +26,7 @@ export const CartItems = () => {
 
   return (
     <div className="flex flex-col justify-center align-middle p-4">
+      <ToastContainer />
       <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
 
       {cartItems.length === 0 ? (
@@ -54,7 +59,6 @@ export const CartItems = () => {
                   <div className="text-right font-bold min-w-[80px]">
                     ${((item.price || 0) * item.quantity).toFixed(2)}
                   </div>
-                  {/* todo remove from cart */}
                   <Trash2
                     className="text-red-500 cursor-pointer w-4 h-4"
                     onClick={() => dispatch(removeFromCart(item.id))}
@@ -64,10 +68,30 @@ export const CartItems = () => {
             ))}
           </div>
 
-          <div className="flex justify-between font-bold text-lg">
+          <div className="flex flex-col font-bold text-lg">
             <span>Total:</span>
             <span className="pl-2">${Number(totalPrice).toFixed(2)}</span>
+
+            <button
+              onClick={() => setShowModal(true)}
+              className="mt-2 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded"
+            >
+              Clean Cart
+            </button>
+
+            {showModal && (
+              <ConfirmModal
+                message="Are you sure you want to clear your cart?"
+                onConfirm={() => {
+                  dispatch(clearCart());
+                  setShowModal(false);
+                  toastCartClearTopRightSuccess();
+                }}
+                onCancel={() => setShowModal(false)}
+              />
+            )}
           </div>
+          {/* // clear cart TODO */}
         </div>
       )}
     </div>

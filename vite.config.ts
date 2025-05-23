@@ -10,7 +10,13 @@ export default defineConfig({
     react(),
     tailwindcss(),
     svgr({
-      svgrOptions: { exportType: 'default', ref: true, svgo: false, titleProp: true },
+      svgrOptions: {
+        exportType: 'default',
+        ref: true,
+        svgo: false,
+        titleProp: true,
+        expandProps: 'start',
+      },
       include: '**/*.svg',
     }),
     [nodePolyfills()],
