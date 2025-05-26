@@ -3,6 +3,7 @@ import { ChevronDown, MapPin } from 'lucide-react';
 import Group from '../assets/img/Group.svg';
 import PhoneCall from '../assets/img/PhoneCall.svg';
 import { HeaderTopActions, Navbar, SearchBar } from './shared';
+import AuthDialog from './AuthDialog';
 
 const Header = () => {
   return (
@@ -22,16 +23,16 @@ const Header = () => {
             USD
             <ChevronDown className="w-4 h-4" />
           </span>
-          <div className="pl-5 text-sm items-center align-center !text-gray-500">
+          {/* <div className="pl-5 text-sm items-center align-center !text-gray-500">
             Sign In/Sign Up
-          </div>
+          </div> */}
+          <AuthDialog />
         </div>
       </div>
 
       {/* second section */}
       <div className="flex flex-row justify-between flex-wrap">
         <div className="flex flex-row gap-1 content-center items-center cursor-pointer">
-          {/* <Group width={10} height={10} /> */}
           <div className="w-6 h-6">
             <Group />
           </div>
