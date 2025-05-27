@@ -23,9 +23,6 @@ const Header = () => {
             USD
             <ChevronDown className="w-4 h-4" />
           </span>
-          {/* <div className="pl-5 text-sm items-center align-center !text-gray-500">
-            Sign In/Sign Up
-          </div> */}
           <AuthDialog />
         </div>
       </div>

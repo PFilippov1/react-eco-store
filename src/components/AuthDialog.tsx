@@ -38,9 +38,52 @@ export default function AuthDialog() {
     resolver: zodResolver(registerSchema),
     defaultValues: { username: '', email: '', password: '' },
   });
-  //todo implement data sending to database
-  const onLogin = (data: object) => console.log('Login:', data);
-  const onRegister = (data: object) => console.log('Register:', data);
+
+  //auth data send/get from database
+  const onLogin = async (data: { email: string; password: string }) => {
+    try {
+      const response = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Login failed');
+      alert('Login successful! Token: ' + result.token);
+      localStorage.setItem('token', result.token);
+      //Save the current, if need
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert(err.message);
+      } else {
+        alert('An unknown error occurred');
+      }
+    }
+  };
+
+  const onRegister = async (data: { username: string; email: string; password: string }) => {
+    try {
+      const response = await fetch('http://localhost:5000/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Registration failed');
+      }
+
+      alert('Registration successful!');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert(err.message);
+      } else {
+        alert('An unknown error occurred');
+      }
+    }
+  };
 
   return (
     <Dialog>
@@ -48,7 +91,7 @@ export default function AuthDialog() {
         <span className="pl-5 text-sm text-gray-500 cursor-pointer">Sign In/Sign Up</span>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[420px] bg-white">
+      <DialogContent className="sm:max-w-[420px] bg-neutral-300">
         <DialogHeader>
           <DialogTitle>Welcome</DialogTitle>
           <DialogDescription>Please sign in or sign up</DialogDescription>

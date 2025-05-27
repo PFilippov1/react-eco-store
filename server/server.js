@@ -2,6 +2,8 @@ import express from 'express';
 import { Pool } from 'pg';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -14,45 +16,10 @@ const pool = new Pool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  JWT_SECRET: process.env.JWT_SECRET,
   port: Number(process.env.DB_PORT),
   ssl: { rejectUnauthorized: false }, // Required for Aiven
 });
-
-// // Fetch all products
-// app.get('/products', async (req, res) => {
-//   const { rows } = await pool.query('SELECT * FROM products');
-//   res.json(rows);
-// });
-
-// // Create a new product
-// app.post('/products', async (req, res) => {
-//   const { name, description, price, category, image_url } = req.body;
-//   await pool.query(
-//     'INSERT INTO products (name, description, price, category, image_url) VALUES ($1, $2, $3, $4, $5)',
-//     [name, description, price, category, image_url]
-//   );
-//   res.json({ message: 'Product added!' });
-// });
-
-// // Update a product
-// app.put('/products/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const { name, description, price, category } = req.body;
-
-//   await pool.query(
-//     'UPDATE products SET name = $1, description = $2, price = $3, category = $4 WHERE id = $5',
-//     [name, description, price, category, id]
-//   );
-//   res.json({ message: 'Product updated!' });
-// });
-
-// // Delete a product
-// app.delete('/products/:id', async (req, res) => {
-//   const { id } = req.params;
-
-//   await pool.query('DELETE FROM products WHERE id = $1', [id]);
-//   res.json({ message: 'Product deleted!' });
-// });
 
 // Fetch all products
 app.get('/products', async (req, res) => {
@@ -86,11 +53,11 @@ app.put('/products/:id', async (req, res) => {
   const { name, description, price, category } = req.body;
 
   try {
-    const result = await pool.query( 
+    const result = await pool.query(
       'UPDATE products SET name = $1, description = $2, price = $3, category = $4 WHERE id = $5',
       [name, description, price, category, id]
     );
-    if (result.rowCount === 0) { 
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Product not found' });
     }
     res.json({ message: 'Product updated!' });
@@ -105,13 +72,65 @@ app.delete('/products/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query('DELETE FROM products WHERE id = $1', [id]);
-     if (result.rowCount === 0) {
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Product not found' });
     }
     res.json({ message: 'Product deleted!' });
   } catch (error) {
     console.error('Error deleting product:', error);
     res.status(500).json({ error: 'Failed to delete product' });
+  }
+});
+
+// Registration
+app.post('/auth/register', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    // Checking the user's existence
+    const userExists = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (userExists.rows.length > 0) {
+      return res.status(400).json({ message: 'User with this email already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await pool.query('INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3)', [
+      username,
+      email,
+      hashedPassword,
+    ]);
+
+    res.status(201).json({ message: 'Registration successful' });
+  } catch (err) {
+    console.error('Registration error:', err);
+    res.status(500).json({ message: 'Server error during registration' });
+  }
+});
+
+// Login
+app.post('/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    const user = result.rows[0];
+
+    if (!user || !(await bcrypt.compare(password, user.password_hash))) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET environment variable is not set');
+    }
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.json({ token });
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({ error: 'Login failed' });
   }
 });
 
