@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store/store';
 import { selectTotalPrice } from '../store/selectors/selectTotalPrice';
 import { ConfirmModal, QuantityCounter } from './shared';
-import { clearCart, removeFromCart } from '../store/slices/cartSlice';
+import { clearCart, removeFromCart, type CartItem } from '../store/slices/cartSlice';
 import { Trash2 } from 'lucide-react';
 import { toastCartClearTopRightSuccess } from '../lib';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export const CartItems = () => {
   const dispatch = useDispatch<AppDispatch>();
   // get all goods from Redux store
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartItems: CartItem[] = useSelector((state: RootState) => state.cart.items);
   const totalPrice = useSelector(selectTotalPrice);
   const [showModal, setShowModal] = useState(false);
 
@@ -87,7 +87,6 @@ export const CartItems = () => {
               />
             )}
           </div>
-          {/* // clear cart TODO */}
         </div>
       )}
     </div>

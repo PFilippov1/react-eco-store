@@ -1,11 +1,12 @@
 import React from 'react';
 import Header from '../components/Header';
 import { Outlet } from 'react-router-dom';
-import { useCartStorage } from '../hooks/useCartStorage';
 import { ToastContainer } from 'react-toastify';
+import { useAuthCheck, useCartStorage } from '@/hooks';
 
 const MainLayout: React.FC = () => {
   useCartStorage();
+  useAuthCheck();
   return (
     <div className="wrapper">
       <ToastContainer />

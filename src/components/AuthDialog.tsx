@@ -10,7 +10,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
-
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '@/store/slices/authSlice';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toastTopRightError, toastTopRightSuccess } from '@/lib';
@@ -30,6 +31,7 @@ const registerSchema = loginSchema.extend({
 });
 
 export default function AuthDialog() {
+  const dispatch = useDispatch();
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
@@ -51,7 +53,13 @@ export default function AuthDialog() {
 
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Login failed');
-      localStorage.setItem('token', result.token);
+      // localStorage.setItem('token', result.token);
+      dispatch(
+        loginSuccess({
+          token: result.token,
+          user: { username: result.username, email: result.email },
+        })
+      );
       toastTopRightSuccess(result.message);
       //Save the current, if need
     } catch (err: unknown) {
@@ -75,7 +83,14 @@ export default function AuthDialog() {
         throw new Error(result.message || 'Registration failed');
       }
 
-      localStorage.setItem('token', result.token);
+      // localStorage.setItem('token', result.token);
+
+      dispatch(
+        loginSuccess({
+          token: result.token,
+          user: { username: result.username, email: result.email },
+        })
+      );
       toastTopRightSuccess(result.message);
       console.log(result.message);
     } catch (err: unknown) {
