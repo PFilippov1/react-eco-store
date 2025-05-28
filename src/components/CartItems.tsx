@@ -8,15 +8,12 @@ import { ConfirmModal, QuantityCounter } from './shared';
 import { clearCart, removeFromCart } from '../store/slices/cartSlice';
 import { Trash2 } from 'lucide-react';
 import { toastCartClearTopRightSuccess } from '../lib';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const CartItems = () => {
   const dispatch = useDispatch<AppDispatch>();
   // get all goods from Redux store
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  // get all products for addition information (for future)
-  // const products = useSelector((state: RootState) => state.products.products);
   const totalPrice = useSelector(selectTotalPrice);
   const [showModal, setShowModal] = useState(false);
 
@@ -26,7 +23,6 @@ export const CartItems = () => {
 
   return (
     <div className="flex flex-col justify-center align-middle p-4">
-      <ToastContainer />
       <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
 
       {cartItems.length === 0 ? (

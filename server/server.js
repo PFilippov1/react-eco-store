@@ -83,6 +83,7 @@ app.delete('/products/:id', async (req, res) => {
 });
 
 // Registration
+
 app.post('/auth/register', async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -91,20 +92,32 @@ app.post('/auth/register', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Checking the user's existence
+    // User's existence
     const userExists = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (userExists.rows.length > 0) {
       return res.status(400).json({ message: 'User with this email already exists' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await pool.query('INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3)', [
+    const newUser = await pool.query(
+      'INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id',
+      [username, email, hashedPassword]
+    );
+
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET environment variable is not set');
+    }
+
+    const token = jwt.sign({ id: newUser.rows[0].id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    res.status(201).json({
+      message: 'Registration successful',
+      token,
       username,
       email,
-      hashedPassword,
-    ]);
-
-    res.status(201).json({ message: 'Registration successful' });
+    });
   } catch (err) {
     console.error('Registration error:', err);
     res.status(500).json({ message: 'Server error during registration' });
@@ -114,23 +127,30 @@ app.post('/auth/register', async (req, res) => {
 // Login
 app.post('/auth/login', async (req, res) => {
   const { email, password } = req.body;
+
   try {
     const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     const user = result.rows[0];
 
     if (!user || !(await bcrypt.compare(password, user.password_hash))) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     if (!process.env.JWT_SECRET) {
       throw new Error('JWT_SECRET environment variable is not set');
     }
+
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ token });
+    res.status(200).json({
+      message: 'Login successful',
+      token,
+      username: user.username,
+      email: user.email,
+    });
   } catch (err) {
     console.error('Login error:', err);
-    res.status(500).json({ error: 'Login failed' });
+    res.status(500).json({ message: 'Login failed due to server error' });
   }
 });
 

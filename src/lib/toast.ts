@@ -9,8 +9,8 @@ export const toastCartClearTopRightSuccess = () => {
     closeOnClick: true,
   });
 };
-export const toastTopRightSuccess = () => {
-  toast.success('Hey 👋!', {
+export const toastTopRightSuccess = (message: string) => {
+  toast.success(` ✅ ${message}`, {
     position: 'top-right',
     autoClose: 3000,
     hideProgressBar: false,
@@ -18,8 +18,8 @@ export const toastTopRightSuccess = () => {
   });
 };
 
-export const toastTopRightError = () => {
-  toast.error('Oops!', {
+export const toastTopRightError = (message: string) => {
+  toast.error(`Oops! ❌ ${message}`, {
     position: 'top-right',
     autoClose: 3000,
     hideProgressBar: false,

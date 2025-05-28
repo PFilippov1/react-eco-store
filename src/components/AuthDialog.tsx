@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toastTopRightError, toastTopRightSuccess } from '@/lib';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email' }),
@@ -50,14 +51,14 @@ export default function AuthDialog() {
 
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Login failed');
-      alert('Login successful! Token: ' + result.token);
       localStorage.setItem('token', result.token);
+      toastTopRightSuccess(result.message);
       //Save the current, if need
     } catch (err: unknown) {
       if (err instanceof Error) {
-        alert(err.message);
+        toastTopRightError(err.message);
       } else {
-        alert('An unknown error occurred');
+        toastTopRightError('An unknown error occurred');
       }
     }
   };
@@ -69,18 +70,20 @@ export default function AuthDialog() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-
+      const result = await response.json();
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Registration failed');
+        throw new Error(result.message || 'Registration failed');
       }
 
-      alert('Registration successful!');
+      localStorage.setItem('token', result.token);
+      toastTopRightSuccess(result.message);
+      console.log(result.message);
     } catch (err: unknown) {
       if (err instanceof Error) {
-        alert(err.message);
+        toastTopRightError(err.message);
+        console.log(err.message);
       } else {
-        alert('An unknown error occurred');
+        toastTopRightError('An unknown error occurred');
       }
     }
   };
