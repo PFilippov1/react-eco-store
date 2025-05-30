@@ -76,14 +76,14 @@ button {
 }
 
 button:hover {
-  border-color: #c7c7d9;
+  /* border-color: #c7c7d9; */
   background-color: var(--dark-green);
 }
 
 button:focus,
 button:focus-visible {
-  border-color: #c7c7d9;
-  border-width: 1px;
+  /* border-color: #c7c7d9;
+  border-width: 1px; */
   outline: none;
 }
 

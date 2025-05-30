@@ -11,7 +11,7 @@ export const HeaderTopActions = () => {
   return (
     <div className="flex flex-row justify-between items-center gap-2">
       <div className="cursor-pointer">
-        <Heart className="w-8 h-8" />
+        <Heart className="w-6 h-8" />
       </div>
       <Link className="relative cursor-pointer  text-black" to="/cart">
         <ShoppingBasket className="w-8 h-8" />{' '}

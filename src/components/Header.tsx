@@ -3,7 +3,7 @@ import { ChevronDown, MapPin } from 'lucide-react';
 import Group from '../assets/img/Group.svg';
 import PhoneCall from '../assets/img/PhoneCall.svg';
 import { HeaderTopActions, Navbar, SearchBar } from './shared';
-import AuthDialog from './AuthDialog';
+import { UserMenu } from './shared/UserMenu';
 
 const Header = () => {
   return (
@@ -23,7 +23,9 @@ const Header = () => {
             USD
             <ChevronDown className="w-4 h-4" />
           </span>
-          <AuthDialog />
+          <div className=" flex flex-row gap-2 items-center border-0 p-0 m-0">
+            <UserMenu />
+          </div>
         </div>
       </div>
 
@@ -45,12 +47,12 @@ const Header = () => {
       <div className="flex flex-row justify-between items-center">
         <Navbar />
         <div className="flex flex-row gap-2 items-center">
-          <div className="w-10 h-10">
+          <div className="w-6 h-6">
             <PhoneCall />
           </div>{' '}
           <div className="flex flex-col">
             <span className="text-sm text-gray-500 text-opacity-50">Customer Service</span>
-            <span className="text-xl font-bold">(123)123-4567</span>
+            <span className="text-[16px] font-bold">(123)123-4567</span>
           </div>
         </div>
       </div>

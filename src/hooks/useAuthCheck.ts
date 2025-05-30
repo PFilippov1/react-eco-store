@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '@/store/slices/authSlice';
 
-export function useAuthCheck() {
+export const useAuthCheck = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,4 +21,4 @@ export function useAuthCheck() {
       if (!user) console.warn('⚠️ No user found in localStorage');
     }
   }, [dispatch]);
-}
+};
