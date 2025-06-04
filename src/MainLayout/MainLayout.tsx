@@ -7,6 +7,7 @@ import { useAuthCheck, useCartStorage } from '@/hooks';
 const MainLayout: React.FC = () => {
   useCartStorage();
   useAuthCheck();
+  // useFavoriteCheck();
   return (
     <div className="wrapper">
       <ToastContainer />

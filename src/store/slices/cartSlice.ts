@@ -1,11 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Product } from './productsSlice';
-import {
-  clearCartFromStorage,
-  loadCartFromStorage,
-  saveCartToStorage,
-} from '../localStorageHelpers';
+import { loadCartFromStorage, saveCartToStorage } from '../localStorageHelpers';
 
 export interface CartItem extends Product {
   quantity: number;
@@ -58,8 +54,6 @@ const cartSlice = createSlice({
     },
     clearCart: (state) => {
       state.items = [];
-      // saveCartToStorage([]);
-      clearCartFromStorage();
     },
   },
 });

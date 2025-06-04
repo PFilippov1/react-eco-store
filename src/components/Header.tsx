@@ -2,8 +2,7 @@ import { cn } from '../lib';
 import { ChevronDown, MapPin } from 'lucide-react';
 import Group from '../assets/img/Group.svg';
 import PhoneCall from '../assets/img/PhoneCall.svg';
-import { HeaderTopActions, Navbar, SearchBar } from './shared';
-import { UserMenu } from './shared/UserMenu';
+import { HeaderTopActions, Navbar, SearchBar, UserMenu } from './shared';
 
 const Header = () => {
   return (

@@ -21,6 +21,7 @@ export const loadCartFromStorage = (): CartItem[] => {
 export const clearCartFromStorage = () => {
   try {
     localStorage.removeItem(CART_KEY);
+    localStorage.removeItem(FAVORITES_KEY);
   } catch (error) {
     console.error('Failed to clear cart from storage:', error);
   }

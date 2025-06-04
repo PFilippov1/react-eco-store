@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '@/store/store';
 import { logout } from '@/store/slices/authSlice';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { AuthDialogContent } from './AuthDialogContent';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -13,10 +12,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { UserCheck } from 'lucide-react';
+import { AuthDialogContent } from '.';
+import { clearFavorites } from '@/store/slices/favoriteSlice';
+import { clearCart } from '@/store/slices/cartSlice';
 
 export const UserMenu = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
+
   return !user ? (
     <Dialog>
       <DialogTrigger asChild>
@@ -44,7 +47,14 @@ export const UserMenu = () => {
           <span className="text-xs text-muted-foreground">{user.email}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => dispatch(logout())} className="text-red-600">
+        <DropdownMenuItem
+          onClick={() => {
+            dispatch(logout());
+            dispatch(clearCart());
+            dispatch(clearFavorites());
+          }}
+          className="text-red-600"
+        >
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>

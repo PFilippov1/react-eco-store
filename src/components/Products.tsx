@@ -5,14 +5,14 @@ import { setProducts, type Product } from '../store/slices/productsSlice';
 import { fetchProducts } from '../lib/api';
 import { addToCart } from '../store/slices/cartSlice';
 import { addFavorite } from '@/store/slices/favoriteSlice';
+import { Heart } from 'lucide-react';
 
 export const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
   const products = useSelector((state: RootState) => state.products.products);
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  // TODO: implement favorite
   const favoriteItems = useSelector((state: RootState) => state.favorites.favorites);
-  console.log(favoriteItems.map((item) => item.name));
+  // const user = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
     fetchProducts().then((data) => dispatch(setProducts(data)));
@@ -31,7 +31,9 @@ export const Products = () => {
   //   // delete from database
   //   // await deleteProductFromDatabase(id);
   // };
+
   const handleAddToFavorite = async (product: Product) => {
+    // TODO
     dispatch(addFavorite(product));
   };
 
@@ -39,6 +41,7 @@ export const Products = () => {
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {products.map((product) => {
         const cartItem = cartItems.find((item) => item.id === product.id);
+        const isProductFavorite = favoriteItems.some((item) => item.id === product.id);
         return (
           <div
             key={product.id}
@@ -59,12 +62,16 @@ export const Products = () => {
               >
                 {cartItem ? `Add (${cartItem.quantity})` : 'Add'}
               </button>
-              {/* TODO: add to favorite */}
+              {/* add to favorite */}
               <button
                 onClick={() => handleAddToFavorite(product)}
-                className="bg-gray-300 text-black px-2 py-2 rounded-md mt-1"
+                className="hover:bg-white! px-2 py-2"
               >
-                {cartItem ? `Favorite  (${cartItem.quantity})` : 'Favorite'}
+                <Heart
+                  className="hover:scale-120 w-5 h-5"
+                  fill={isProductFavorite ? 'red' : 'none'}
+                  stroke={isProductFavorite ? 'red' : 'currentColor'}
+                />
               </button>
               {/* <button
                 onClick={() => handleDelete(product.id)}
