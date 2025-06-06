@@ -12,7 +12,7 @@ import { Button } from './ui/button';
 
 export const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const products = useSelector((state: RootState) => state.products.products);
+  const filteredProducts = useSelector((state: RootState) => state.products.filteredProducts);
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const favoriteItems = useSelector((state: RootState) => state.favorites.favorites);
   const user = useSelector((state: RootState) => state.auth.user);
@@ -58,7 +58,7 @@ export const Products = () => {
 
   return (
     <>
-      {/* add to favorites btn Login dialogue execution */}
+      {/* add to favorites btn it invokes Login dialogue execution */}
       <Dialog open={openAuthDialog} onOpenChange={setOpenAuthDialog}>
         <DialogTrigger asChild>
           <div style={{ display: 'none' }} />
@@ -67,7 +67,7 @@ export const Products = () => {
       </Dialog>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => {
+        {filteredProducts.map((product) => {
           const cartItem = cartItems.find((item) => item.id === product.id);
           const isProductFavorite = favoriteItems.some((item) => item.id === product.id);
           return (

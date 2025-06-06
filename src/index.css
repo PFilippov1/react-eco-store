@@ -46,6 +46,10 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   background-color: var(--background);
 }
