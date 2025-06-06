@@ -1,23 +1,41 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { cn } from '../../lib';
 import { Search as SearchIcon, SearchX } from 'lucide-react';
 import { useDispatch } from 'react-redux';
-import { setSearchQuery } from '../../store/slices/productsSlice';
+import { setSearchQuery, searchProductsServer } from '../../store/slices/productsSlice';
+import debounce from 'lodash.debounce';
+import type { AppDispatch } from '@/store/store';
 
 export const SearchBar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [localQuery, setLocalQuery] = React.useState('');
+  const [localQuery, setLocalQuery] = useState('');
+
+  //create debounce function and clear debounce after unmount
+  const debouncedSearch = useCallback(
+    debounce((query: string) => {
+      dispatch(setSearchQuery(query));
+      dispatch(searchProductsServer(query));
+    }, 500),
+    [dispatch]
+  );
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setLocalQuery(query);
-    dispatch(setSearchQuery(query));
+    setLocalQuery(e.target.value);
+    debouncedSearch(e.target.value);
   };
 
   const handleInputClear = () => {
     setLocalQuery('');
-    dispatch(setSearchQuery(''));
+    debouncedSearch('');
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   return (
@@ -40,12 +58,11 @@ export const SearchBar = () => {
         value={localQuery}
         onChange={handleInputChange}
         className="w-auto h-full rounded-none border-0 focus:ring-gray-500 block p-2.5 group-hover:ring-gray-500 group-focus:ring-gray-500"
-        placeholder="Search"
+        placeholder="Search products..."
       />
-
       <button
         className={cn(
-          'bg-green-500 h-full w-4/12 text-white flex items-center rounded-none justify-center '
+          'bg-green-500 h-full w-4/12 text-white flex items-center rounded-none justify-center'
         )}
       >
         Search

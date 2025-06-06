@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { fetchProducts } from '../lib/api';
-import { setProducts } from '../store/slices/productsSlice';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store/store';
 import { selectTotalPrice } from '../store/selectors/selectTotalPrice';
@@ -16,10 +14,6 @@ export const CartItems = () => {
   const cartItems: CartItem[] = useSelector((state: RootState) => state.cart.items);
   const totalPrice = useSelector(selectTotalPrice);
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    fetchProducts().then((data) => dispatch(setProducts(data)));
-  }, [dispatch]);
 
   return (
     <div className="flex flex-col justify-center align-middle p-4">

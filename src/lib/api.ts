@@ -4,10 +4,14 @@ type Product = {
   price: number;
   category: string;
   image_url?: string;
+  description?: string;
 };
 
-export const fetchProducts: () => Promise<Product[]> = async () => {
+export const fetchProducts = async (): Promise<Product[]> => {
   const response = await fetch('http://localhost:5000/products');
+  if (!response.ok) {
+    throw new Error('Failed to fetch products');
+  }
   return response.json();
 };
 
@@ -36,5 +40,15 @@ export const deleteProductFromDatabase: (id: number) => Promise<Product> = async
   const response = await fetch(`http://localhost:5000/products/${id}`, {
     method: 'DELETE',
   });
+  return response.json();
+};
+
+export const searchProducts = async (query: string): Promise<Product[]> => {
+  const response = await fetch(
+    `http://localhost:5000/products/search?q=${encodeURIComponent(query)}`
+  );
+  if (!response.ok) {
+    throw new Error('Failed to search products');
+  }
   return response.json();
 };

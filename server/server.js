@@ -21,6 +21,26 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }, // Required for Aiven
 });
 
+// Search products
+app.get('/products/search', async (req, res) => {
+  const { q } = req.query;
+  
+  if (!q) {
+    return res.status(400).json({ error: 'Search query is required' });
+  }
+
+  try {
+    const { rows } = await pool.query(
+      'SELECT * FROM products WHERE LOWER(name) LIKE LOWER($1)',
+      [`%${q}%`]
+    );
+    res.json(rows);
+  } catch (error) {
+    console.error('Search error:', error);
+    res.status(500).json({ error: 'Failed to search products' });
+  }
+});
+
 // Fetch all products
 app.get('/products', async (req, res) => {
   try {
