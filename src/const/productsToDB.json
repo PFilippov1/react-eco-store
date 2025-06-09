@@ -1,0 +1,72 @@
+[
+  {
+    "name": "green apple",
+    "description": "fresh green apple",
+    "price": 1.99,
+    "category": "fruit",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Granny_smith_and_cross_section.jpg/1920px-Granny_smith_and_cross_section.jpg"
+  },
+  {
+    "name": "red apple",
+    "description": "fresh red apple",
+    "price": 1.99,
+    "category": "fruit",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Red_delicious_and_cross_section.jpg/1920px-Red_delicious_and_cross_section.jpg"
+  },
+  {
+    "name": "ripe red apple",
+    "description": "Ripe Red Delicious apples are uniformly red. They are firm, juicy and sweet. They are good for cooking or eating fresh.",
+    "price": 1.99,
+    "category": "fruit",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/77/MalusDSC1422.jpg"
+  },
+  {
+    "name": "watermelon Taiwan",
+    "description": "fresh Taiwan watermelon from Taiwan Organic Farm",
+    "price": 1.99,
+    "category": "berry",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/47/Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg"
+  },
+  {
+    "name": "watermelon local",
+    "description": "fresh local watermelon from Organic Farm",
+    "price": 0.99,
+    "category": "berry",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Watermelon_cross_BNC.jpg"
+  },
+  {
+    "name": "cranberries local",
+    "description": "fresh local cranberries from Organic Farm",
+    "price": 2.99,
+    "category": "berry",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Cranberry_bog.jpg"
+  },
+  {
+    "name": "cranberries raw",
+    "description": "Raw cranberries from Organic Farm",
+    "price": 2.99,
+    "category": "berry",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/45/Cranberries20101210.jpg"
+  },
+  {
+    "name": "Cavendish bananas",
+    "description": "the fruits of one of a number of banana cultivars belonging to the Cavendish subgroup of the AAA banana cultivar group",
+    "price": 2.99,
+    "category": "fruit",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Cavendish_Banana_DS.jpg/500px-Cavendish_Banana_DS.jpg"
+  },
+  {
+    "name": "Red bananas",
+    "description": "Red bananas should have a deep red or maroon rind when ripe and are best eaten when unbruised and slightly soft.",
+    "price": 2.99,
+    "category": "fruit",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Musa_acuminata_%28AAA_Group%29_%27Red_Dacca%27_-_red_banana.jpg"
+  },
+  {
+    "name": "Apple bananas",
+    "description": "Apple bananas is a triploid hybrid banana cultivar of the AAB \"Pome\" group from the Philippines.",
+    "price": 2.99,
+    "category": "fruit",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Ripe_latundan_bananas.jpg"
+  }
+]

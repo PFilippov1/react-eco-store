@@ -15,7 +15,7 @@ export const fetchProducts = async (): Promise<Product[]> => {
   return response.json();
 };
 
-export const addProductToDatabase = async (newProduct: Product) => {
+export const addProductToDatabase = async (newProduct: Omit<Product, 'id'>) => {
   const response = await fetch('http://localhost:5000/products', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

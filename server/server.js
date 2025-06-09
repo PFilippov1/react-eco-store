@@ -24,16 +24,15 @@ const pool = new Pool({
 // Search products
 app.get('/products/search', async (req, res) => {
   const { q } = req.query;
-  
+
   if (!q) {
     return res.status(400).json({ error: 'Search query is required' });
   }
 
   try {
-    const { rows } = await pool.query(
-      'SELECT * FROM products WHERE LOWER(name) LIKE LOWER($1)',
-      [`%${q}%`]
-    );
+    const { rows } = await pool.query('SELECT * FROM products WHERE LOWER(name) LIKE LOWER($1)', [
+      `%${q}%`,
+    ]);
     res.json(rows);
   } catch (error) {
     console.error('Search error:', error);
@@ -52,7 +51,7 @@ app.get('/products', async (req, res) => {
   }
 });
 
-// Create a new product
+// Create a new product (future feature)
 app.post('/products', async (req, res) => {
   const { name, description, price, category, image_url } = req.body;
   try {
@@ -87,7 +86,7 @@ app.put('/products/:id', async (req, res) => {
   }
 });
 
-// Delete a product
+// Delete a product from DB
 app.delete('/products/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -171,6 +170,40 @@ app.post('/auth/login', async (req, res) => {
   } catch (err) {
     console.error('Login error:', err);
     res.status(500).json({ message: 'Login failed due to server error' });
+  }
+});
+
+// upload Products to DB
+app.post('/products/bulk-insert', async (req, res) => {
+  const products = req.body;
+
+  if (!Array.isArray(products)) {
+    return res.status(400).json({ error: 'Invalid data format, expected an array' });
+  }
+
+  try {
+    // Complete cleaning the table + reset of auto  increment `id`
+    await pool.query('TRUNCATE TABLE products RESTART IDENTITY CASCADE');
+
+    const values = products.map(({ name, description, price, category, image_url }) => [
+      name,
+      description,
+      price,
+      category,
+      image_url,
+    ]);
+
+    const query = `
+      INSERT INTO products (name, description, price, category, image_url)
+      VALUES ${values.map((_, i) => `($${i * 5 + 1}, $${i * 5 + 2}, $${i * 5 + 3}, $${i * 5 + 4}, $${i * 5 + 5})`).join(',')}
+    `;
+    
+    await pool.query(query, values.flat());
+
+    res.status(201).json({ message: 'Products reset and added successfully!' });
+  } catch (error) {
+    console.error('Error resetting and adding products:', error);
+    res.status(500).json({ error: 'Failed to reset and add products' });
   }
 });
 

@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "precommit": "lint-staged",
     "prepare": "husky",
-    "start:server": "ts-node server/server.js"
+    "start:server": "ts-node server/server.js",
+    "seed:products": "ts-node scripts/seed-products.js"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
@@ -40,6 +41,7 @@
     "jsonwebtoken": "^9.0.2",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.507.0",
+    "node-fetch": "^3.3.2",
     "pg": "^8.16.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -57,7 +59,7 @@
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.1",
     "@types/lodash.debounce": "^4.0.9",
-    "@types/node": "^22.15.21",
+    "@types/node": "^22.15.30",
     "@types/pg": "^8.15.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
