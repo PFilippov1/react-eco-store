@@ -1,9 +1,7 @@
 @import './css/styles/_variables.css';
 @import './css/styles/_normalize.css';
 @import 'tailwindcss';
-@import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
+@import 'tw-animate-css';
 
 :root {
   line-height: 1.5;
@@ -48,10 +46,14 @@
 
 html {
   overflow-y: scroll;
+  /* overflow-y: auto;  */
+  /* width: 100vw; */
 }
 
 body {
   background-color: var(--background);
+  scroll-behavior: smooth;
+  width: 100%;
 }
 
 .wrapper {

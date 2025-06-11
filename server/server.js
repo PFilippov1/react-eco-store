@@ -42,11 +42,30 @@ app.get('/products/search', async (req, res) => {
 
 // Fetch all products
 app.get('/products', async (req, res) => {
+  const { sortBy = 'id', order = 'asc', category } = req.query;
+
+  // validate sort and order
+  const validSortBy = ['id', 'price', 'name'];
+  const validOrder = ['asc', 'desc'];
+
+  const sortColumn = validSortBy.includes(sortBy) ? sortBy : 'id';
+  const sortOrder = validOrder.includes(order) ? order : 'asc';
+
+  const values = [];
+  let query = 'SELECT * FROM products';
+
+  if (category) {
+    query += ' WHERE LOWER(category) = LOWER($1)';
+    values.push(category);
+  }
+
+  query += ` ORDER BY ${sortColumn} ${sortOrder}`;
+
   try {
-    const { rows } = await pool.query('SELECT * FROM products');
+    const { rows } = await pool.query(query, values);
     res.json(rows);
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error('Error fetching sorted/filtered products:', error);
     res.status(500).json({ error: 'Failed to fetch products' });
   }
 });
@@ -197,7 +216,7 @@ app.post('/products/bulk-insert', async (req, res) => {
       INSERT INTO products (name, description, price, category, image_url)
       VALUES ${values.map((_, i) => `($${i * 5 + 1}, $${i * 5 + 2}, $${i * 5 + 3}, $${i * 5 + 4}, $${i * 5 + 5})`).join(',')}
     `;
-    
+
     await pool.query(query, values.flat());
 
     res.status(201).json({ message: 'Products reset and added successfully!' });

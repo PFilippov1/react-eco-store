@@ -17,6 +17,9 @@ interface ProductsState {
   searchQuery: string;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  category: string;
+  sortBy: string | null;
+  order: string | null;
 }
 
 const initialState: ProductsState = {
@@ -25,12 +28,20 @@ const initialState: ProductsState = {
   searchQuery: '',
   status: 'idle',
   error: null,
+  category: 'all',
+  sortBy: null,
+  order: null,
 };
 
-export const fetchAllProducts = createAsyncThunk('products/fetchAll', async () => {
-  const response = await fetchProducts();
-  return response;
-});
+export const fetchAllProducts = createAsyncThunk(
+  'products/fetchAll',
+  async (params?: { sortBy?: string; order?: string; category?: string }) => {
+    const queryParams = new URLSearchParams(params || {}).toString();
+    const res = await fetch(`http://localhost:5000/products?${queryParams}`);
+    const data = await res.json();
+    return data as Product[];
+  }
+);
 
 export const searchProductsServer = createAsyncThunk('products/search', async (query: string) => {
   if (!query.trim()) {
@@ -51,6 +62,14 @@ const productsSlice = createSlice({
     clearSearch(state) {
       state.searchQuery = '';
       state.filteredProducts = state.allProducts;
+    },
+    setSortParams(
+      state,
+      action: PayloadAction<{ category?: string; sortBy?: string; order?: string }>
+    ) {
+      if (action.payload.category !== undefined) state.category = action.payload.category;
+      if (action.payload.sortBy !== undefined) state.sortBy = action.payload.sortBy;
+      if (action.payload.order !== undefined) state.order = action.payload.order;
     },
   },
   extraReducers: (builder) => {
@@ -81,5 +100,5 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setSearchQuery, clearSearch } = productsSlice.actions;
+export const { setSearchQuery, clearSearch, setSortParams } = productsSlice.actions;
 export default productsSlice.reducer;

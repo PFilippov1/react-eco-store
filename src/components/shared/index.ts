@@ -6,3 +6,4 @@ export { CartItems } from '../CartItems';
 export { ConfirmModal } from './confirmCartDeleteModal';
 export { AuthDialogContent } from './AuthDialogContent';
 export { UserMenu } from './UserMenu';
+export { SortBlock } from './SortBlock';

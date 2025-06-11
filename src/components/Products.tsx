@@ -6,7 +6,7 @@ import { addToCart } from '../store/slices/cartSlice';
 import { addFavorite } from '@/store/slices/favoriteSlice';
 import { Heart } from 'lucide-react';
 import { Dialog, DialogTrigger } from './ui/dialog';
-import { AuthDialogContent } from './shared';
+import { AuthDialogContent, SortBlock } from './shared';
 import { Button } from './ui/button';
 
 export const Products = () => {
@@ -19,10 +19,23 @@ export const Products = () => {
 
   const [pendingFavorite, setPendingFavorite] = useState<Product | null>(null);
   const [openAuthDialog, setOpenAuthDialog] = useState(false);
+  const { category, sortBy, order } = useSelector((state: RootState) => state.products);
 
   useEffect(() => {
-    dispatch(fetchAllProducts());
-  }, [dispatch]);
+    const params: { sortBy?: string; order?: string; category?: string } = {};
+
+    if (sortBy && order) {
+      params.sortBy = sortBy;
+      params.order = order;
+    }
+
+    if (category && category !== 'all') {
+      params.category = category;
+    }
+
+    dispatch(fetchAllProducts(params));
+  }, [dispatch, category, sortBy, order]);
+
   // When the user logged in — add to favorites deferred product
   useEffect(() => {
     if (user && pendingFavorite) {
@@ -65,6 +78,7 @@ export const Products = () => {
 
   return (
     <>
+      <SortBlock />
       {/* add to favorites btn it invokes Login dialogue execution */}
       <Dialog open={openAuthDialog} onOpenChange={setOpenAuthDialog}>
         <DialogTrigger asChild>
@@ -96,17 +110,17 @@ export const Products = () => {
                 <div className="flex flex-row gap-1 justify-between">
                   <Button
                     onClick={() => handleAddToCart(product)}
-                    className="bg-green-500 text-white px-2 py-2 rounded-md mt-1"
+                    className="bg-green-500 text-white px-2 py-2 rounded-md mt-1 cursor-pointer"
                   >
                     {cartItem ? `Add (${cartItem.quantity})` : 'Add'}
                   </Button>
                   {/* add to favorite */}
                   <Button
                     onClick={() => handleAddToFavorite(product)}
-                    className="bg-white! px-2 py-2 hover:scale-120 shadow-none"
+                    className="bg-white! px-2 py-2 hover:scale-120 shadow-none cursor-pointer"
                   >
                     <Heart
-                      className="hover:scale-120 w-5 h-5 "
+                      className="hover:scale-120 w-5 h-5"
                       fill={isProductFavorite ? 'red' : 'none'}
                       stroke={isProductFavorite ? 'red' : 'gray'}
                     />
