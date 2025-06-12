@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../store/store';
-import { fetchAllProducts, type Product } from '../store/slices/productsSlice';
+import {
+  fetchAllProducts,
+  type FetchProductsParams,
+  type Product,
+} from '../store/slices/productsSlice';
 import { addToCart } from '../store/slices/cartSlice';
 import { addFavorite } from '@/store/slices/favoriteSlice';
 import { Heart } from 'lucide-react';
@@ -22,7 +26,7 @@ export const Products = () => {
   const { category, sortBy, order } = useSelector((state: RootState) => state.products);
 
   useEffect(() => {
-    const params: { sortBy?: string; order?: string; category?: string } = {};
+    const params: FetchProductsParams = {};
 
     if (sortBy && order) {
       params.sortBy = sortBy;
@@ -77,9 +81,9 @@ export const Products = () => {
   };
 
   return (
-    <>
+    <div className="container mx-auto px-4 py-6">
       <SortBlock />
-      {/* add to favorites btn it invokes Login dialogue execution */}
+
       <Dialog open={openAuthDialog} onOpenChange={setOpenAuthDialog}>
         <DialogTrigger asChild>
           <div style={{ display: 'none' }} />
@@ -87,56 +91,65 @@ export const Products = () => {
         <AuthDialogContent />
       </Dialog>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
         {filteredProducts.length === 0 ? (
-          <div>No products found</div>
+          <div className="col-span-full text-center py-8 text-gray-500">
+            No products found matching your criteria
+          </div>
         ) : (
           filteredProducts.map((product) => {
             const cartItem = cartItems.find((item) => item.id === product.id);
             const isProductFavorite = favoriteItems.some((item) => item.id === product.id);
+
             return (
               <div
                 key={product.id}
-                className="border p-4 rounded-lg shadow-md flex flex-col justify-between"
+                className=" border p-3 sm:p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col !justify-between"
               >
-                <h3 className="text-lg font-semibold">{product.name}</h3>
-                <p className="text-gray-600">{product.description}</p>
-                <img
-                  className="w-32 h-32 object-cover mx-auto"
-                  src={product.image_url}
-                  alt={product.name}
-                />
-                <p className="text-gray-700">{product.price} USD</p>
-                <div className="flex flex-row gap-1 justify-between">
-                  <Button
-                    onClick={() => handleAddToCart(product)}
-                    className="bg-green-500 text-white px-2 py-2 rounded-md mt-1 cursor-pointer"
-                  >
-                    {cartItem ? `Add (${cartItem.quantity})` : 'Add'}
-                  </Button>
-                  {/* add to favorite */}
-                  <Button
-                    onClick={() => handleAddToFavorite(product)}
-                    className="bg-white! px-2 py-2 hover:scale-120 shadow-none cursor-pointer"
-                  >
-                    <Heart
-                      className="hover:scale-120 w-5 h-5"
-                      fill={isProductFavorite ? 'red' : 'none'}
-                      stroke={isProductFavorite ? 'red' : 'gray'}
-                    />
-                  </Button>
-                  {/* <button
-                onClick={() => handleDelete(product.id)}
-                className="bg-red-500 text-white px-2 py-2 rounded-md mt-1"
-              >
-                Delete
-              </button> */}
+                <h3 className="text-base sm:text-lg font-semibold mb-1 line-clamp-1">
+                  {product.name}
+                </h3>
+                <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 mb-2">
+                  {product.description}
+                </p>
+                <div className="relative mb-3 overflow-hidden rounded flex justify-center items-center">
+                  <img
+                    className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
+                    src={product.image_url}
+                    alt={product.name}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="flex flex-col p-1">
+                  <p className="text-gray-700 font-medium mb-3">{product.price} USD</p>
+
+                  <div className="mt-auto flex gap-2">
+                    <Button
+                      onClick={() => handleAddToCart(product)}
+                      className="flex-1 bg-green-500 hover:bg-green-600 text-white text-xs sm:text-sm py-1 h-8 sm:h-9"
+                    >
+                      {cartItem ? `Add (${cartItem.quantity})` : 'Add'}
+                    </Button>
+
+                    <Button
+                      onClick={() => handleAddToFavorite(product)}
+                      // variant="ghost"
+                      size="sm"
+                      className="p-1 sm:p-2 h-9 w-9 sm:h-9 bg-transparent shadow-none transition-transform duration-300 hover:scale-130 hover:bg-transparent"
+                    >
+                      <Heart
+                        className="w-4 h-4 sm:w-5 sm:h-5"
+                        fill={isProductFavorite ? 'red' : 'none'}
+                        stroke={isProductFavorite ? 'red' : 'black'}
+                      />
+                    </Button>
+                  </div>
                 </div>
               </div>
             );
           })
         )}
       </div>
-    </>
+    </div>
   );
 };

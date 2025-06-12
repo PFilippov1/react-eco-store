@@ -7,6 +7,7 @@ import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import ErrorBoundary from './lib/ErrorBoundary';
 import { Cart } from './pages/Cart';
+import { Favorite } from './pages/Favorite';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/favorite" element={<Favorite />} />
             //todo
             {/* <Route path="plant/:id" element={<Plant />} /> */}
             <Route path="*" element={<NotFound />} />

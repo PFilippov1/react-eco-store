@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllProducts, setSortParams } from '@/store/slices/productsSlice';
+import {
+  fetchAllProducts,
+  setSortParams,
+  type FetchProductsParams,
+} from '@/store/slices/productsSlice';
 import { Button } from '@/components/ui/button';
 
 import {
@@ -11,12 +15,8 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import type { AppDispatch, RootState } from '@/store/store';
-
-type FetchProductsParams = {
-  sortBy?: string;
-  order?: string;
-  category?: string;
-};
+import { MoveDown, MoveUp } from 'lucide-react';
+import { cn } from '@/lib';
 
 export const SortBlock = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -43,31 +43,49 @@ export const SortBlock = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 mb-6 items-end">
-      {/* Categories */}
-      <div className="flex flex-col">
-        <Label>Category</Label>
-        <Select value={category} onValueChange={handleCategoryChange}>
-          <SelectTrigger aria-label="Select category" className="min-w-[180px] w-fit">
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent>
-            {categories.map((cat) => (
-              <SelectItem key={cat} value={cat}>
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+    <div className="flex flex-wrap gap-4 mb-6">
+      <div className="flex flex-col min-w-[180px] flex-1 sm:flex-initial">
+        {/* Categories select*/}
+        <div className="flex flex-col">
+          <Label className="mb-1">Category</Label>
+          <Select value={category} onValueChange={handleCategoryChange}>
+            <SelectTrigger aria-label="Select category" className="w-full sm:w-[180px]">
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((cat) => (
+                <SelectItem key={cat} value={cat}>
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {/* Sorting */}
-      <div className="flex gap-2 items-end">
-        <Button variant="outline" onClick={() => handleSort('price', 'asc')}>
-          Price: Low to High
+
+      <div className="flex flex-wrap gap-2 items-end">
+        Price:
+        <Button
+          variant="outline"
+          onClick={() => handleSort('price', 'asc')}
+          className={cn(
+            'w-8 h-8 p-0 relative group',
+            'hover:bg-transparent hover:text-current hover:border-gray-100'
+          )}
+        >
+          <MoveUp className="w-4 h-4 transition-transform duration-100 group-hover:translate-y-[-3px] absolute" />
         </Button>
-        <Button variant="outline" onClick={() => handleSort('price', 'desc')}>
-          Price: High to Low
+        <Button
+          variant="outline"
+          onClick={() => handleSort('price', 'desc')}
+          className={cn(
+            'w-8 h-8 p-0  relative group',
+            'hover:bg-transparent hover:text-current hover:border-gray-100'
+          )}
+        >
+          <MoveDown className="w-4 h-4 transition-transform duration-100 group-hover:translate-y-[3px] absolute" />
         </Button>
       </div>
     </div>

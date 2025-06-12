@@ -33,9 +33,15 @@ const initialState: ProductsState = {
   order: null,
 };
 
+export type FetchProductsParams = {
+  sortBy?: string;
+  order?: string;
+  category?: string;
+};
+
 export const fetchAllProducts = createAsyncThunk(
   'products/fetchAll',
-  async (params?: { sortBy?: string; order?: string; category?: string }) => {
+  async (params?: FetchProductsParams) => {
     const queryParams = new URLSearchParams(params || {}).toString();
     const res = await fetch(`http://localhost:5000/products?${queryParams}`);
     const data = await res.json();

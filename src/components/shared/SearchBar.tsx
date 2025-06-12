@@ -39,34 +39,44 @@ export const SearchBar = () => {
   };
 
   return (
-    <div className="flex flex-row bg-gray-50 items-center rounded-md overflow-hidden group">
+    <div
+      className={cn(
+        'flex flex-row items-center rounded-md overflow-hidden',
+        'bg-gray-50 transition-colors duration-200',
+        'focus-within:bg-green-50',
+        'w-full max-w-md md:max-w-lg lg:max-w-xl',
+        'border border-gray-200 hover:border-gray-300 focus-within:border-green-300'
+      )}
+    >
       <div
         onClick={() => inputRef.current?.focus()}
-        className="w-10 h-10 flex items-center justify-center cursor-text group-hover:text-gray-600 group-focus-within:text-gray-600"
+        className={cn(
+          'w-10 h-10 flex items-center justify-center cursor-text',
+          'text-gray-400 group-hover:text-gray-600 group-focus-within:text-gray-600',
+          'transition-colors duration-200'
+        )}
       >
         {localQuery ? (
           <SearchX
-            className="text-gray-400 transition-colors duration-200 cursor-pointer"
+            className="w-5 h-5 cursor-pointer hover:text-gray-600"
             onClick={handleInputClear}
           />
         ) : (
-          <SearchIcon className="text-gray-400 transition-colors duration-200" />
+          <SearchIcon className="w-5 h-5" />
         )}
       </div>
+
       <input
         ref={inputRef}
         value={localQuery}
         onChange={handleInputChange}
-        className="w-auto h-full rounded-none border-0 focus:ring-gray-500 block p-2.5 group-hover:ring-gray-500 group-focus:ring-gray-500"
+        className={cn(
+          'w-full h-full bg-transparent border-0 focus:ring-0',
+          'px-2 py-3 text-gray-800 placeholder-gray-400',
+          'focus:outline-none focus:bg-transparent'
+        )}
         placeholder="Search products..."
       />
-      <button
-        className={cn(
-          'bg-green-500 h-full w-4/12 text-white flex items-center rounded-none justify-center'
-        )}
-      >
-        Search
-      </button>
     </div>
   );
 };

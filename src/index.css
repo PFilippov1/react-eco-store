@@ -76,15 +76,11 @@ body {
   margin: 0 auto;
 }
 
-button {
+/* button {
   border: 1px solid transparent;
   transform: ease-in-out var(--duration);
-}
+} */
 
-button:hover {
-  /* border-color: #c7c7d9; */
-  background-color: var(--dark-green);
-}
 
 button:focus,
 button:focus-visible {
