@@ -4,9 +4,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import serverless from 'serverless-http';
+
 
 dotenv.config();
-const serverless = require('serverless-http');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -226,4 +227,5 @@ app.post('/products/bulk-insert', async (req, res) => {
   }
 });
 
-module.exports.handler = serverless(app);
+// module.exports.handler = serverless(app);
+export const handler = serverless(app);

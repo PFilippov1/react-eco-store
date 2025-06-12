@@ -26,7 +26,6 @@ export const clearCartFromStorage = () => {
     console.error('Failed to clear cart from storage:', error);
   }
 };
-// TODO: add to favorites
 export const saveFavoritesToStorage = (items: Product[]) => {
   localStorage.setItem(FAVORITES_KEY, JSON.stringify(items));
 };

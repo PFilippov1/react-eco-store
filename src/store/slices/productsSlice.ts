@@ -1,6 +1,6 @@
-import { fetchProducts, searchProducts } from '@/lib/api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { fetchAllProductsApi, fetchProducts, searchProducts } from 'api/api';
 
 export interface Product {
   id: number;
@@ -42,10 +42,8 @@ export type FetchProductsParams = {
 export const fetchAllProducts = createAsyncThunk(
   'products/fetchAll',
   async (params?: FetchProductsParams) => {
-    const queryParams = new URLSearchParams(params || {}).toString();
-    const res = await fetch(`http://localhost:5000/products?${queryParams}`);
-    const data = await res.json();
-    return data as Product[];
+    const data = await fetchAllProductsApi(params);
+    return data;
   }
 );
 
