@@ -6,8 +6,12 @@ type Product = {
   image_url?: string;
   description?: string;
 };
-const API_URL = "https://react-eco-store.netlify.app/api";
+
+// const API_URL = "https://react-eco-store.netlify.app/api";
 // const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.DEV
+  ? 'http://localhost:8888/api'
+  : 'https://react-eco-store.netlify.app/api';
 
 export const fetchProducts = async (): Promise<Product[]> => {
   const response = await fetch(`${API_URL}/products`);

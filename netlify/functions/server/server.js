@@ -6,6 +6,15 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import serverless from 'serverless-http';
 
+// const express = require('express');
+// const { Pool } = require('pg');
+// const cors = require('cors');
+// const dotenv = require('dotenv');
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
+// const serverless = require('serverless-http');
+// dotenv.config();
+
 
 dotenv.config();
 const app = express();
@@ -225,6 +234,10 @@ app.post('/products/bulk-insert', async (req, res) => {
     console.error('Error resetting and adding products:', error);
     res.status(500).json({ error: 'Failed to reset and add products' });
   }
+});
+//test
+app.get('/', (req, res) => {
+  res.send('API is working');
 });
 
 // module.exports.handler = serverless(app);
