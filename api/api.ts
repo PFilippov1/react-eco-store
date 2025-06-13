@@ -9,8 +9,11 @@ type Product = {
 
 // const API_URL = "https://react-eco-store.netlify.app/api";
 // const API_URL = "http://localhost:5000";
+// const API_URL = import.meta.env.DEV
+//   ? 'http://localhost:8888/api'
+//   : 'https://react-eco-store.netlify.app/api';
 const API_URL = import.meta.env.DEV
-  ? 'http://localhost:8888/api'
+  ? 'http://localhost:5000'
   : 'https://react-eco-store.netlify.app/api';
 
 export const fetchProducts = async (): Promise<Product[]> => {
