@@ -14,7 +14,7 @@ type Product = {
 //   : 'https://react-eco-store.netlify.app/api';
 const API_URL = import.meta.env.DEV
   ? 'http://localhost:5000'
-  : 'https://react-eco-store.netlify.app/api';
+  : 'https://react-eco-store.onrender.com/api';
 
 export const fetchProducts = async (): Promise<Product[]> => {
   const response = await fetch(`${API_URL}/products`);
