@@ -13,6 +13,7 @@ import { loginSuccess } from '@/store/slices/authSlice';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toastTopRightError, toastTopRightSuccess } from '@/lib';
+import { loginUser, registerUser } from 'api/api';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email' }),
@@ -43,13 +44,7 @@ export const AuthDialogContent = () => {
 
   const onLogin = async (data: { email: string; password: string }) => {
     try {
-      const res = await fetch('http://localhost:5000/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.error || 'Login failed');
+      const result = await loginUser(data.email, data.password);
       dispatch(
         loginSuccess({
           token: result.token,
@@ -61,20 +56,14 @@ export const AuthDialogContent = () => {
       if (err instanceof Error) {
         toastTopRightError(err.message);
       } else {
-        toastTopRightError('An unknown error occurred ');
+        toastTopRightError('An unknown error occurred');
       }
     }
   };
 
   const onRegister = async (data: { username: string; email: string; password: string }) => {
     try {
-      const res = await fetch('http://localhost:5000/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.message || 'Registration failed');
+      const result = await registerUser(data.username, data.email, data.password);
       dispatch(
         loginSuccess({
           token: result.token,
@@ -86,7 +75,7 @@ export const AuthDialogContent = () => {
       if (err instanceof Error) {
         toastTopRightError(err.message);
       } else {
-        toastTopRightError('An unknown error occurred ');
+        toastTopRightError('An unknown error occurred');
       }
     }
   };
