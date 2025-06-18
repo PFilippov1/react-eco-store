@@ -13,3 +13,8 @@
   to = "http://localhost:5000/:splat"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

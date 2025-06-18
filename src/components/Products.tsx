@@ -110,6 +110,13 @@ export const Products = () => {
                 <div className="flex-1">
                   <Link
                     to={`/product/${product.id}`}
+                    state={{
+                      backgroundLocation: {
+                        pathname: location.pathname,
+                        search: location.search,
+                        hash: location.hash,
+                      },
+                    }}
                     className="cursor-pointer flex flex-col h-full "
                   >
                     <h3 className="text-base sm:text-lg font-semibold !mb-2 line-clamp-1">

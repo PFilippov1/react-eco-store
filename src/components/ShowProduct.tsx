@@ -1,7 +1,9 @@
-import type { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '@/store/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { QuantityCounter } from './shared';
+import { useEffect } from 'react';
+import { fetchAllProducts } from '@/store/slices/productsSlice';
 
 export const ShowProduct = () => {
   const { id } = useParams<{ id: string }>();
@@ -9,10 +11,19 @@ export const ShowProduct = () => {
   const cartItem = useSelector((state: RootState) =>
     state.cart.items.find((item) => item.id === productId)
   );
+  // fetch all products if manually added address link like /product/:id then show product
+  const dispatch = useDispatch<AppDispatch>();
+  const allProducts = useSelector((state: RootState) => state.products.allProducts);
+  useEffect(() => {
+    if (allProducts.length === 0) {
+      dispatch(fetchAllProducts({}));
+    }
+  }, [dispatch, allProducts]);
 
   const product = useSelector((state: RootState) =>
     state.products.allProducts.find((p) => p.id === productId)
   );
+
   if (!product) return <div className="p-6">Product not found</div>;
   return (
     product && (
