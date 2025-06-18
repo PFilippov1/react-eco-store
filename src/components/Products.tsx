@@ -12,6 +12,7 @@ import { Heart } from 'lucide-react';
 import { Dialog, DialogTrigger } from './ui/dialog';
 import { AuthDialogContent, SortBlock } from './shared';
 import { Button } from './ui/button';
+import { Link } from 'react-router-dom';
 
 export const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -104,25 +105,33 @@ export const Products = () => {
             return (
               <div
                 key={product.id}
-                className=" border p-3 sm:p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col !justify-between"
+                className="border p-3 sm:p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col h-full"
               >
-                <h3 className="text-base sm:text-lg font-semibold mb-1 line-clamp-1">
-                  {product.name}
-                </h3>
-                <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 mb-2">
-                  {product.description}
-                </p>
-                <div className="relative mb-3 overflow-hidden rounded flex justify-center items-center">
-                  <img
-                    className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
-                    src={product.image_url}
-                    alt={product.name}
-                    loading="lazy"
-                  />
+                <div className="flex-1">
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="cursor-pointer flex flex-col h-full "
+                  >
+                    <h3 className="text-base sm:text-lg font-semibold !mb-2 line-clamp-1">
+                      {product.name}
+                    </h3>
+                    <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 !mb-2">
+                      {product.description}
+                    </p>
+
+                    <div className="relative mb-3 overflow-hidden rounded flex justify-center items-center">
+                      <img
+                        className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
+                        src={product.image_url}
+                        alt={product.name}
+                        loading="lazy"
+                      />
+                    </div>
+                  </Link>
                 </div>
+
                 <div className="flex flex-col p-1">
                   <p className="text-gray-700 font-medium mb-3">{product.price} USD</p>
-
                   <div className="mt-auto flex gap-2">
                     <Button
                       onClick={() => handleAddToCart(product)}
