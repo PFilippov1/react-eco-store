@@ -3,6 +3,7 @@ import { ChevronDown, MapPin } from 'lucide-react';
 import Group from '../assets/img/Group.svg';
 import PhoneCall from '../assets/img/PhoneCall.svg';
 import { HeaderTopActions, Navbar, SearchBar, UserMenu } from './shared';
+import { useRouteMatch } from '@/hooks';
 
 const Header = () => {
   return (
@@ -37,7 +38,7 @@ const Header = () => {
           <span className="text-3xl font-bold"> Ecobazar</span>
         </div>
 
-        <SearchBar />
+        {useRouteMatch() && <SearchBar />}
         <HeaderTopActions />
       </div>
 

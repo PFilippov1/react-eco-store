@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { QuantityCounter } from './shared';
 import { useEffect } from 'react';
 import { fetchAllProducts } from '@/store/slices/productsSlice';
+import { ProductCardSkeleton } from './skeleton/ProductCardSkeleton';
 
 export const ShowProduct = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,17 +15,25 @@ export const ShowProduct = () => {
   // fetch all products if manually added address link like /product/:id then show product
   const dispatch = useDispatch<AppDispatch>();
   const allProducts = useSelector((state: RootState) => state.products.allProducts);
+  const status = useSelector((state: RootState) => state.products.status);
   useEffect(() => {
-    if (allProducts.length === 0) {
+    if (allProducts.length === 0 && status !== 'loading') {
       dispatch(fetchAllProducts({}));
     }
-  }, [dispatch, allProducts]);
+  }, [dispatch, allProducts, status]);
 
   const product = useSelector((state: RootState) =>
     state.products.allProducts.find((p) => p.id === productId)
   );
 
-  if (!product) return <div className="p-6">Product not found</div>;
+  if (status === 'loading') {
+    return <ProductCardSkeleton />;
+  }
+
+  if (status === 'succeeded' && !product) {
+    return <div className="p-6 text-center text-gray-500">Product with {id} were not found</div>;
+  }
+
   return (
     product && (
       <div className="max-w-4xl mx-auto px-4 py-6 grid md:grid-cols-2 gap-6">

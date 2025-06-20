@@ -13,6 +13,7 @@ import { Dialog, DialogTrigger } from './ui/dialog';
 import { AuthDialogContent, SortBlock } from './shared';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
+import { ProductSkeleton } from './skeleton';
 
 export const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -51,7 +52,13 @@ export const Products = () => {
   }, [user, pendingFavorite, dispatch]);
 
   if (status === 'loading') {
-    return <div>Loading products...</div>;
+    return (
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+        {Array.from({ length: 8 }, (_, index) => index).map((index) => (
+          <ProductSkeleton key={index} />
+        ))}
+      </div>
+    );
   }
 
   if (status === 'failed') {

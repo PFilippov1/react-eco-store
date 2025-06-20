@@ -66,7 +66,6 @@ export const SortBlock = () => {
       {/* Sorting */}
 
       <div className="flex flex-wrap gap-2 items-end">
-        Price:
         <Button
           variant="outline"
           onClick={() => handleSort('price', 'asc')}
@@ -77,6 +76,7 @@ export const SortBlock = () => {
         >
           <MoveUp className="w-4 h-4 transition-transform duration-100 group-hover:translate-y-[-3px] absolute" />
         </Button>
+        Price:
         <Button
           variant="outline"
           onClick={() => handleSort('price', 'desc')}

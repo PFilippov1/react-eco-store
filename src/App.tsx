@@ -15,7 +15,6 @@ import { ProductModal } from './components/shared';
 function App() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
-  // const backgroundLocation = state?.backgroundLocation;
   const backgroundLocation =
     location.state && 'backgroundLocation' in location.state ? state.backgroundLocation : null;
 
