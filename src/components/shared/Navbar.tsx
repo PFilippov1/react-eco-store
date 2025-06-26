@@ -22,9 +22,7 @@ export const Navbar = () => {
             <li key={link.name}>
               <NavLink
                 to={link.path}
-                className={({ isActive }) =>
-                  isActive ? 'text-blue-500 font-bold' : 'text-gray-700'
-                }
+                className={({ isActive }) => (isActive ? ' font-extrabold' : 'text-gray-700')}
               >
                 {link.name}
               </NavLink>

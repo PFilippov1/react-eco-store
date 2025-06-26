@@ -3,9 +3,11 @@ import { ChevronDown, MapPin } from 'lucide-react';
 import Group from '../assets/img/Group.svg';
 import PhoneCall from '../assets/img/PhoneCall.svg';
 import { HeaderTopActions, Navbar, SearchBar, UserMenu } from './shared';
-import { useRouteMatch } from '@/hooks';
+import { useRouteMatch, useTooltip } from '@/hooks';
 
 const Header = () => {
+  const InDevTooltip = useTooltip({ content: 'In process development', delayDuration: 200 });
+
   return (
     <div className={cn('container p-2', 'flex flex-col justify-between gap-3')}>
       {/* first section */}
@@ -14,15 +16,20 @@ const Header = () => {
           <MapPin className="w-4 h-4" />
           <span>Store Location: Lincoln- 344, Illinois, Chicago, USA</span>
         </div>
+
         <div className="flex flex-row justify-start items-center align-center text-sm ">
-          <span className="flex flex-row text-gray-500">
-            Eng
-            <ChevronDown className="w-4 h-4" />
-          </span>
-          <span className="flex flex-row text-gray-500">
-            USD
-            <ChevronDown className="w-4 h-4" />
-          </span>
+          <InDevTooltip>
+            <div className="flex flex-row">
+              <span className="flex flex-row text-gray-500">
+                Eng
+                <ChevronDown className="w-4 h-4" />
+              </span>
+              <span className="flex flex-row text-gray-500">
+                USD
+                <ChevronDown className="w-4 h-4" />
+              </span>
+            </div>
+          </InDevTooltip>
           <div className=" flex flex-row gap-2 items-center border-0 p-0 m-0">
             <UserMenu />
           </div>

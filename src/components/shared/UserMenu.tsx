@@ -23,7 +23,11 @@ export const UserMenu = () => {
   return !user ? (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="hover:bg-white! hover:text-green-600!">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="hover:bg-white! hover:text-green-600! cursor-pointer"
+        >
           Sign In / Sign Up
         </Button>
       </DialogTrigger>
@@ -35,7 +39,7 @@ export const UserMenu = () => {
         <Button
           variant="ghost"
           size="sm"
-          className="hover:text-green-400! hover:bg-white! text-green-600 text-xl font-bold "
+          className="hover:text-green-400! hover:bg-white! text-green-600 text-xl font-bold cursor-pointer"
         >
           <UserCheck />
           {user.username}
