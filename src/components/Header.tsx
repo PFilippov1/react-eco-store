@@ -19,7 +19,7 @@ const Header = () => {
 
         <div className="flex flex-row justify-start items-center align-center text-sm ">
           <InDevTooltip>
-            <div className="flex flex-row">
+            <div className="flex flex-row cursor-not-allowed">
               <span className="flex flex-row text-gray-500">
                 Eng
                 <ChevronDown className="w-4 h-4" />

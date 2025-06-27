@@ -22,7 +22,7 @@ export const HeaderTopActions = () => {
       </Link>
 
       <Link to="/cart" className="relative cursor-pointer text-black flex items-center gap-2">
-        <div className="relative">
+        <div className="relative transition-transform duration-200 ease-in-out hover:scale-115">
           <ShoppingBasket className="w-8 h-8" />{' '}
           {productsQuantity > 0 && (
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full !text-white font-bold flex items-center justify-center text-[10px] text-center p-0">
