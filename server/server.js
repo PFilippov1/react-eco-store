@@ -9,13 +9,15 @@ dotenv.config();
 
 const app = express();
 // app.use(cors());
-app.use(cors({
-   origin: [
-    'http://localhost:5173', //For development
-    'https://react-eco-store.netlify.app' // For the production
-  ],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      'http://localhost:5173', //For development
+      'https://react-eco-store.netlify.app', // For the production
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 const pool = new Pool({

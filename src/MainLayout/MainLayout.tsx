@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { useAuthCheck, useCartStorage } from '@/hooks';
+import { AnimatePresence } from 'framer-motion';
 
 const MainLayout: React.FC = () => {
   useCartStorage();
@@ -12,7 +13,9 @@ const MainLayout: React.FC = () => {
       <ToastContainer />
       <Header />
       <main className="content">
-        <Outlet />
+        <AnimatePresence mode="wait" initial={false}>
+          <Outlet key={location.pathname} />
+        </AnimatePresence>
       </main>
     </div>
   );

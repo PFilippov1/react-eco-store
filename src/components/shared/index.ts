@@ -8,3 +8,4 @@ export { AuthDialogContent } from './AuthDialogContent';
 export { UserMenu } from './UserMenu';
 export { SortBlock } from './SortBlock';
 export { ProductModal } from './ProductModal';
+export { PageWrapper } from './PageWrapper';

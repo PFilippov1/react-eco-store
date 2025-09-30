@@ -1,3 +1,9 @@
+import { PageWrapper } from '@/components/shared';
+
 export const Contact = () => {
-  return <div>Contact Page</div>;
+  return (
+    <PageWrapper>
+      <div>Contact Page</div>
+    </PageWrapper>
+  );
 };

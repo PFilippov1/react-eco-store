@@ -1,9 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchAllProducts,
-  setSortParams,
-  type FetchProductsParams,
-} from '@/store/slices/productsSlice';
+import { setSortParams } from '@/store/slices/productsSlice';
 import { Button } from '@/components/ui/button';
 
 import {
@@ -42,13 +38,13 @@ export const SortBlock = () => {
 
   const handleCategoryChange = (value: string) => {
     dispatch(setSortParams({ category: value }));
-    const params: FetchProductsParams = {};
-    if (sortBy && order) {
-      params.sortBy = sortBy;
-      params.order = order;
-    }
-    if (value !== 'all') params.category = value;
-    dispatch(fetchAllProducts(params));
+    // const params: FetchProductsParams = {};
+    // if (sortBy && order) {
+    //   params.sortBy = sortBy;
+    //   params.order = order;
+    // }
+    // if (value !== 'all') params.category = value;
+    // dispatch(fetchAllProducts(params));
   };
 
   return (
